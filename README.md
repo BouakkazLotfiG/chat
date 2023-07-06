@@ -1,7 +1,5 @@
 # Chatter.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Description
 
 Chatter is a chat application developed using React, Firebase Authentication, and Firestore. It offers users a platform to engage in real-time conversations with individuals from all corners of the world.
