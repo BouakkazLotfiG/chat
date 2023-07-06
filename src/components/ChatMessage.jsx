@@ -10,7 +10,7 @@ const ChatMessage = (props) => {
   return (
     <div className={`message ${messageClass}`}>
       <img src={photoURL} alt='avatar' />
-      <p>{text}</p>
+      <p className='chat'>{text}</p>
     </div>
   );
 };
