@@ -1,5 +1,5 @@
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { db } from '../firebase';
 import { auth } from '../firebase';
@@ -7,9 +7,11 @@ import ChatMessage from './ChatMessage';
 
 const ChatRoom = () => {
   const [formValue, setFormValue] = useState('');
-  const [messages] = useCollectionData(collection(db, 'message'), {
-    idField: 'id',
-  });
+  const position = useRef();
+  const [messages] =
+    useCollectionData(collection(db, 'message'), {
+      idField: 'id',
+    }) || [];
   console.log('messages:', messages);
 
   const submitMessage = async (e) => {
@@ -22,19 +24,21 @@ const ChatRoom = () => {
       photoURL,
     });
     setFormValue('');
+    position.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <>
       <div>
         <div>
-          {messages === true && messages.length === 0 ? (
+          {messages ? (
             messages.map((message) => (
               <ChatMessage key={message.id} message={message} />
             ))
           ) : (
             <h1>no messages yet</h1>
           )}
+          <div ref={position}></div>
         </div>
 
         <form onSubmit={submitMessage}>
