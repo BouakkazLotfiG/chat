@@ -1,6 +1,12 @@
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  orderBy,
+  query,
+  serverTimestamp,
+} from 'firebase/firestore';
 import { useRef, useState } from 'react';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { useCollection } from 'react-firebase-hooks/firestore';
 import { db } from '../firebase';
 import { auth } from '../firebase';
 import ChatMessage from './ChatMessage';
@@ -8,11 +14,13 @@ import ChatMessage from './ChatMessage';
 const ChatRoom = () => {
   const [formValue, setFormValue] = useState('');
   const position = useRef();
-  const [messages] =
-    useCollectionData(collection(db, 'message'), {
-      idField: 'id',
-    }) || [];
-  console.log('messages:', messages);
+
+  //   const query = collection(db, 'message').orderBy('createdAt');
+  //   const [messages] = useCollection(query, { idField: 'id' });
+  const [messages] = useCollection(
+    query(collection(db, 'message'), orderBy('createdAt'))
+  );
+  console.log(messages?.docs);
 
   const submitMessage = async (e) => {
     e.preventDefault();
@@ -32,7 +40,7 @@ const ChatRoom = () => {
       <div>
         <div>
           {messages ? (
-            messages.map((message) => (
+            messages?.docs?.map((message) => (
               <ChatMessage key={message.id} message={message} />
             ))
           ) : (
