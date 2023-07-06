@@ -14,7 +14,7 @@ function App() {
   const [user] = useAuthState(auth);
   return (
     <div className='w-full h-screen flex flex-col  justify-around items-center  '>
-      <div className='w-[90%] md:w-[50%] bg-[#FCF7F8] rounded-lg mt-20'>
+      <div className='w-[90%] md:w-[35%] bg-[#FCF7F8] rounded-lg mt-20'>
         <section className=''>
           {user ? (
             <div className='flex flex-col   rounded-lg shadow-md'>
